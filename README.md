@@ -218,8 +218,8 @@ This creates a blank file, paste the following bare-bones configuration:
 ```
 server {
     listen 80;
-    server_name your_domain www.your_domain;
-    root /var/www/your_domain;
+    server_name projectLEMP www.projectLEMP;
+    root /var/www/projectLEMP;
 
     index index.html index.htm index.php;
 
@@ -229,7 +229,7 @@ server {
 
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
      }
 
     location ~ /\.ht {
@@ -241,7 +241,8 @@ server {
 
 Save and exit using :wq
 
-<img width="506" alt="22" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/122293e6-e0f5-4932-83f8-5c59e1c5f402">
+<img width="576" alt="Screenshot 2024-05-09 at 16 44 55" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/39a42443-c400-4e8b-ad40-5ac5b43186c1">
+
 
 Here’s what each of these directives and location blocks do:
 
@@ -283,14 +284,57 @@ Your new website is now active, but the web root /var/www/projectLEMP is still e
 ```
 sudo echo 'Hello LAMP from hostname' $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) 'with public IP' $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/projectLEMP/index.html 
 ```
+Now go to your browser and open your website URl using ip-address, the image below should display and it means your nginx is working as expected: 
+
+<img width="1171" alt="Screenshot 2024-05-09 at 16 48 43" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/dac5ef9a-64fd-47fb-8924-cd2606828148">
+You can leave this file in place as a temporary landing page for your application until you set up an index.php file to replace it. Once you do that, remember to remove or rename the index.html file from your document root, as it would take precedence over an index.php file by default.
+
+Your LEMP stack is now fully configured. In the next step, we’ll create a PHP script to test that Nginx is in fact able to handle .php files within your newly configured website.
 
 
+### Testing PHP with Nginx
+Your LEMP stack should now be completely set up. You can test it to validate that Nginx can correctly hand .php files off to your PHP processor.
 
+You can do this by creating a test PHP file in your document root. Open a new file called info.php within your document root in your text editor:
 
+```
+vim /var/www/projectLEMP/info.php
+```
 
+Type or paste the following lines into the new file. This is valid PHP code that will return information about your server:
 
+```
+<?php
+phpinfo();
+```
+When you are finished, save and close the file by clciking the ESC key then type :wq to save and quit.
+<img width="268" alt="Screenshot 2024-05-09 at 16 54 43" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/beae4826-d096-46f1-947f-11da4585589b">
 
+You can now access this page in your web browser by visiting the domain name or public IP address you’ve set up in your Nginx configuration file, followed by /info.php:
 
+```
+http://server_domain_or_IP/info.php
+```
+
+You will see a web page containing detailed information about your server:
+
+<img width="1526" alt="Screenshot 2024-05-09 at 16 58 08" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/24ac3d9e-bd7b-4f03-8c9f-0680adedf1ad">
+
+After checking the relevant information about your PHP server through that page, it’s best to remove the file you created as it contains sensitive information about your PHP environment and your Ubuntu server. You can use rm to remove that file:
+
+```
+sudo rm /var/www/projectLEMP/info.php
+```
+
+### RETRIEVING DATA FROM MYSQL DATABASE WITH PHP
+In this step we will create a test database with simple "TO do list" and configure access to it, so the nginx webserver can query data from DB and display it.
+To start we would first create a database name new_database and a user name new_user 
+
+Step 1: Connect to musql console using root account
+
+```
+sudo mysql
+```
 
 
 
