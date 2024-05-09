@@ -1,0 +1,4 @@
+# LEMP STACK DOCUMENTATION
+![LEMP STACK](https://github.com/sheezylion/LEMP-STACK/assets/142250556/8f56b168-dd72-4416-9dc7-2e84b29b4fa7)
+
+## WHAT IS LEMP STACK
