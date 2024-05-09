@@ -308,6 +308,7 @@ Type or paste the following lines into the new file. This is valid PHP code that
 phpinfo();
 ```
 When you are finished, save and close the file by clciking the ESC key then type :wq to save and quit.
+
 <img width="268" alt="Screenshot 2024-05-09 at 16 54 43" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/beae4826-d096-46f1-947f-11da4585589b">
 
 You can now access this page in your web browser by visiting the domain name or public IP address you’ve set up in your Nginx configuration file, followed by /info.php:
