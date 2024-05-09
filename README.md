@@ -337,7 +337,122 @@ Step 1: Connect to musql console using root account
 sudo mysql
 ```
 
+Step 2: Create a new database with the command below inside mysql console
 
+```
+CREATE DATABASE new_database;
+```
+<img width="370" alt="Screenshot 2024-05-09 at 17 28 13" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/939a60e3-792e-46be-9260-3a3152fed906">
 
+Now you can create a new user and grant them full privileges on the custom database you’ve just created.
 
+The following command creates a new user named new_user, using mysql_native_password as default authentication method. We’re defining this user’s password as New.1.pass, but you should replace this value with a secure password of your own choosing.
 
+```
+CREATE USER 'new_user'@'%' IDENTIFIED WITH mysql_native_password BY 'new.pass.1';
+```
+
+Now we need to give this user permission over the new_database database:
+
+```
+GRANT ALL ON new_database.* TO 'new_user'@'%';
+```
+
+This will give the new_user user full privileges over the new_database database, while preventing this user from creating or modifying other databases on your server.
+
+Now exit the MySQL shell with:
+
+```
+exit
+```
+You can test if the new user has the proper permissions by logging in to the MySQL console again, this time using the custom user credentials:
+
+```
+mysql -u new_user -p
+```
+
+<img width="609" alt="Screenshot 2024-05-09 at 17 37 15" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/442a6b18-b29e-456b-a6ff-64b0412795fd">
+
+Notice the -p flag in this command, which will prompt you for the password used when creating the new_user user. After logging in to the MySQL console, confirm that you have access to the new_database database:
+
+```
+SHOW DATABASES;
+```
+
+This will give you the following promp: 
+
+<img width="352" alt="Screenshot 2024-05-09 at 17 38 36" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/86e63207-b29f-466b-a681-764c5dde57e7">
+
+Next, we’ll create a test table named todo_list. From the MySQL console, run the following statement:
+
+```
+CREATE TABLE new_database.todo_list (
+	item_id INT AUTO_INCREMENT,
+	content VARCHAR(255),
+	PRIMARY KEY(item_id)
+);
+```
+Insert a few rows of content in the test table. You might want to repeat the next command a few times, using different values:
+
+```
+INSERT INTO new_database.todo_list (content) VALUES ("My first important item");
+```
+To confirm that the data was successfully saved to your table, run:
+
+```
+SELECT * FROM new_database.todo_list;
+```
+You will see the following output:
+
+<img width="500" alt="Screenshot 2024-05-09 at 17 46 22" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/f01712ef-fae7-49f0-a193-2cfa835fa45c">
+
+After confirming that you have valid data in your test table, you can exit the MySQL console:
+
+```
+exit
+```
+
+Now you can create the PHP script that will connect to MySQL and query for your content. Create a new PHP file in your custom web root directory using your preferred editor. We’ll use vim for that:
+
+```
+vim /var/www/projectLEMP/todo_list.php
+```
+The following PHP script connects to the MySQL database and queries for the content of the todo_list table, exhibiting the results in a list. If there’s a problem with the database connection, it will throw an exception. 
+Copy this content into your todo_list.php script:
+
+```
+<?php
+$user = "new_user";
+$password = "new.pass.1";
+$database = "new_database";
+$table = "todo_list";
+
+try {
+  $db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);
+  echo "<h2>TODO</h2><ol>"; 
+  foreach($db->query("SELECT content FROM $table") as $row) {
+    echo "<li>" . $row['content'] . "</li>";
+  }
+  echo "</ol>";
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+}
+```
+
+Save and close the file when you’re done editing.
+
+<img width="665" alt="Screenshot 2024-05-09 at 17 51 22" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/a1dcf061-a961-422d-a89d-bfacaf3557bc">
+
+You can now access this page in your web browser by visiting the domain name or public IP address configured for your website, followed by /todo_list.php:
+
+```
+http://server_domain_or_IP/todo_list.php
+```
+
+You should see a page like this, showing the content you’ve inserted in your test table:
+
+<img width="806" alt="Screenshot 2024-05-09 at 17 54 00" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/cf2ee705-1adf-47e2-bf7d-c2229e9d2860">
+
+### CONCLUSION
+By following the guidelines outlined in this documentation we are able to use Nginx as web server and MySQL as database system.
