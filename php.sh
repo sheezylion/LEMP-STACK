@@ -1,0 +1,1 @@
+sudo apt install php-fpm php-mysql #command to install php and php packages
