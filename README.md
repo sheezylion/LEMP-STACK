@@ -9,7 +9,7 @@ LEMP is an open source web-application stack used to develop web applications. T
 - P - Php for scripting langiage
 
 
-LEMP enjoys community support, hence it is used around the world in many highly scaled web applications. Nginx is the secind most widely used web server in the world following apache.
+LEMP enjoys community support, hence it is used around the world in many highly scaled web applications. Nginx is the second most widely used web server in the world following apache.
 
 ## HOW LEMP STACK WORLS
 The LEMP stack works by using nginx web server, which listens for HTTP request and forward it to the appropriate php script. The php script generate a response which is then sent back to the user via nginx.
