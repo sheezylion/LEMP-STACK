@@ -253,7 +253,36 @@ Here’s what each of these directives and location blocks do:
 - location ~ \.php$ — This location block handles the actual PHP processing by pointing Nginx to the fastcgi-php.conf configuration file and the php7.4-fpm.sock file, which declares what socket is associated with php-fpm.
 - location ~ /\.ht — The last location block deals with .htaccess files, which Nginx does not process. By adding the deny all directive, if any .htaccess files happen to find their way into the document root ,they will not be served to visitors.
 
+Step 4: Activate your configuration by linking to the config file from Nginx’s sites-enabled directory
 
+```
+sudo ln -s /etc/nginx/sites-available/projectLEMP /etc/nginx/sites-enabled/
+```
+
+Step 5: Then, unlink the default configuration file from the /sites-enabled/ directory:
+
+```
+sudo unlink /etc/nginx/sites-enabled/default
+```
+You can test your configuration for syntax error with this comman:
+
+```
+sudo nginx -t
+```
+<img width="544" alt="23" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/4b89787e-905e-48ca-8459-27534a0a1228">
+
+If any errors are reported, go back to your configuration file to review its contents before continuing.
+
+Step 6: When you are ready, reload Nginx to apply the changes:
+
+```
+sudo systemctl reload nginx
+```
+Your new website is now active, but the web root /var/www/projectLEMP is still empty. Create an index.html file in that location so that we can test that your new server block works as expected:
+
+```
+sudo echo 'Hello LAMP from hostname' $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) 'with public IP' $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/projectLEMP/index.html 
+```
 
 
 
