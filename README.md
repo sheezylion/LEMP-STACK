@@ -91,8 +91,8 @@ sudo apt install nginx
 Step 3: Enable nginx and check status to confirm if its running
 
 ```
-sudo systemctl enable apache2
-sudo systemctl status apache2
+sudo systemctl enable nginx
+sudo systemctl status nginx
 ```
 <img width="1006" alt="12" src="https://github.com/sheezylion/LEMP-STACK/assets/142250556/c09a15d5-ef1f-40a1-8c1f-914ebb98b5c9">
 
